@@ -4,6 +4,13 @@ import java.util.TreeMap;
 
 public class Encryptor {
 
+    /**
+     * Take plain text and run through column transposition twice to get cipher text
+     * @param plainText
+     * @param key1 key used to transpose to get ciphertext 1/ matrix 1
+     * @param key2 key used to transpose to get ciphertext 2/ matrix 2
+     * @return final ciphered text
+     */
     public String createCipher(String plainText, String key1, String key2)
     {
         int rowCount1 = roundUpDiv(plainText.length(),key1.length());
@@ -25,6 +32,12 @@ public class Encryptor {
         return cipherText2;
     }
 
+    /**
+     * Takes key which takes string word, and reorders is in alphabetical order, and return the key to
+     * transpose
+     * @param key key word
+     * @return key to transpose
+     */
     public int[] makeKey(String key)
     {
         Character[] key1Split = key.chars().mapToObj(c -> (char) c).toArray(Character[]::new);
@@ -50,6 +63,13 @@ public class Encryptor {
         return numberedKey;
     }
 
+    /**
+     * Create matrix base on text, and key
+     * @param plainText to insert in matrix
+     * @param columnCount key for column length
+     * @param rowCount plain text count divided by key to get row length( plus 1 if not exact value)
+     * @return character matrix which will be used to transpose using the key
+     */
     public Character[][] makeMatrix(String plainText, int columnCount, int rowCount)
     {
 
@@ -87,6 +107,14 @@ public class Encryptor {
         return cipherTextMatrix1;
     }
 
+    /**
+     * Take key and character matrix, and transpose to create ciphered matrix
+     * @param initialMatrix
+     * @param key key used for transposing matrix
+     * @param columnCount length of key
+     * @param rowCount plaintext / key
+     * @return ciphered matrix which will be used by another function to output first round or final round of ciphered text
+     */
     public Character[][] transpose(Character[][] initialMatrix, int[] key, int columnCount, int rowCount)
     {
         Character[][] transposedM = new Character[columnCount][rowCount];
@@ -115,6 +143,13 @@ public class Encryptor {
         return transposedM;
     }
 
+    /**
+     * takes the ciphered matrix and outputs a ciphered text
+     * @param cipherMatrix self explanatory
+     * @param columnCount
+     * @param rowCount
+     * @return first round or final rounds ciphered text
+     */
     public String generateCipherText(Character[][] cipherMatrix, int columnCount, int rowCount)
     {
         String tempCText = "";
@@ -128,6 +163,12 @@ public class Encryptor {
         return tempCText;
     }
 
+    /**
+     * used to return row length based on irregular matrix, one with padding full of blank spaces
+     * @param x plain text
+     * @param y key
+     * @return row length
+     */
     public int roundUpDiv(int x, int y)
     {
         if(x%y == 0)

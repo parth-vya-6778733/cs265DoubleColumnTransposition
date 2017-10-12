@@ -1,8 +1,18 @@
 import java.util.List;
 
 public class Decryptor {
+    /**
+     * some shared functions reused from encryptor
+     */
     public Encryptor e = new Encryptor();
 
+    /**
+     * take cipher text and keys and work backwards to get plain text
+     * @param cipher final ciphered text
+     * @param key1 key used first round of ciphering
+     * @param key2 key used second round of ciphering
+     * @return final plain text
+     */
     public String deCipher(String cipher, String key1, String key2)
     {
         int rowCount2 = e.roundUpDiv(cipher.trim().length(),key2.length());
@@ -26,6 +36,13 @@ public class Decryptor {
         return cipherText1;
     }
 
+    /**
+     * takes ciphered text, and puts in matrix column first
+     * @param plainText actually ciphered text, just havent renamed it
+     * @param columnCount key length
+     * @param rowCount text divided by key
+     * @return matrix which will be inversely transposed using given key in sep function
+     */
     public Character[][] makeInvertedMatrix(String plainText, int columnCount, int rowCount)
     {
 
@@ -63,6 +80,14 @@ public class Decryptor {
         return cipherTextMatrix1;
     }
 
+    /**
+     * Takes inverted matrix, and key, and transposes it to get plain text, or first round cipher text
+     * @param initialMatrix inverted matrix
+     * @param key key used to transpose inversely(list)
+     * @param columnCount length of key
+     * @param rowCount text divided by key
+     * @return either first round of transposing, or final plain text matrix
+     */
     public Character[][] inverseTranspose(Character[][] initialMatrix, List<Integer> key, int columnCount, int rowCount)
     {
         Character[][] transposedM = new Character[columnCount][rowCount];
@@ -90,6 +115,14 @@ public class Decryptor {
         return transposedM;
     }
 
+    /**
+     * Same as above, but overrided with diff input param for key
+     * @param initialMatrix
+     * @param key
+     * @param columnCount
+     * @param rowCount
+     * @return
+     */
     public Character[][] inverseTranspose(Character[][] initialMatrix, int[] key, int columnCount, int rowCount)
     {
         Character[][] transposedM = new Character[columnCount][rowCount];
@@ -117,6 +150,13 @@ public class Decryptor {
         return transposedM;
     }
 
+    /**
+     * takes inverted matrix and generates cipher text after round 1, or final plain text
+     * @param cipherMatrix matrix used to generate text
+     * @param columnCount
+     * @param rowCount
+     * @return
+     */
     public String generateInverseCipherText(Character[][] cipherMatrix, int columnCount, int rowCount)
     {
         String tempCText = "";
